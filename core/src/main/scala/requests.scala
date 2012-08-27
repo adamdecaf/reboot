@@ -19,6 +19,7 @@ object host extends HostVerbs
 object url extends (String => RequestBuilder) {
   def apply(url: String) = new RequestBuilder().setUrl(url)
 }
+
 trait RequestVerbs {
   def subject: RequestBuilder
 }
@@ -34,8 +35,7 @@ trait MethodVerbs extends RequestVerbs {
   def OPTIONS = subject.setMethod("OPTIONS")
 }
 
-trait UrlVerbs extends RequestVerbs {
-  private val encode = URLEncoder.encode(_: String, "utf-8")
+trait UrlVerbs extends RequestVerbs with UrlFormatting {
   import java.net.URI
   def url = subject.build.getUrl // unfortunate
   def / (path: String) = {
@@ -60,7 +60,7 @@ trait HeaderVerbs extends RequestVerbs {
     }
 }
 
-trait ParamVerbs extends RequestVerbs {
+trait ParamVerbs extends RequestVerbs with UrlFormatting {
   private def defaultMethod(method: String) = {
     if (subject.build.getMethod.toUpperCase == "GET")
       subject.setMethod(method)
@@ -88,7 +88,7 @@ trait ParamVerbs extends RequestVerbs {
   def <<? (params: Traversable[(String,String)]) =
     (subject /: params) {
       case (s, (key, value)) =>
-        s.addQueryParameter(key, value)
+        s.addQueryParameter(key, encode(value))
     }
 }
 
