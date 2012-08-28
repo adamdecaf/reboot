@@ -60,7 +60,7 @@ trait HeaderVerbs extends RequestVerbs {
     }
 }
 
-trait ParamVerbs extends RequestVerbs with UrlFormatting {
+trait ParamVerbs extends RequestVerbs {
   private def defaultMethod(method: String) = {
     if (subject.build.getMethod.toUpperCase == "GET")
       subject.setMethod(method)
@@ -88,7 +88,7 @@ trait ParamVerbs extends RequestVerbs with UrlFormatting {
   def <<? (params: Traversable[(String,String)]) =
     (subject /: params) {
       case (s, (key, value)) =>
-        s.addQueryParameter(key, encode(value))
+        s.addQueryParameter(key, value)
     }
 }
 
