@@ -1,0 +1,46 @@
+Immutable Requests
+-----------------
+
+Because the underlying [RequestBuilder][rb] library is mutable you can
+sometimes lose information when accessing the values. So, the `dispatch.immutable`
+package attempts to fix that.
+
+[rb]: http://asynchttpclient.github.com/async-http-client/apidocs/com/ning/http/client/RequestBuilder.html
+
+You can define requests with the same syntax as mutable requests.
+
+```scala
+import dispatch.immutable._
+
+:/ ("example.com")
+url("example.com")
+```
+
+And then modify them in the same way.
+
+```scala
+Http(url("example") / "path" <<? Map("param" -> "value"))
+```
+
+You also get some handy accessor methods.
+
+```scala
+val req = :/ ("example.com") / "path" / "to" / "file" <<? Map("param" -> "value")
+
+req.addPath("otherPath")
+req.removePath("otherPath")
+
+req.addHeaders(Map("headerKey1" -> "headerValue1"))
+req.removeHeaders(Map("headerKey1" -> "headerValue1"))
+
+req.addQueryParams(Map("queryKey1" -> "queryValue1"))
+req.removeQueryParams(Map("queryKey1" -> "queryValue1"))
+
+// Will convert the request to a POST
+req.addPostParams(Map("postKey1" -> "postValue1"))
+req.removePostParams(Map("postKey1" -> "postValue1"))
+
+// Changes the request to secure (https)
+req.secure
+req.isSecure()
+```
