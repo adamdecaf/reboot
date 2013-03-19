@@ -8,7 +8,7 @@ asynchronous requests.
 
 [rb]: http://asynchttpclient.github.com/async-http-client/apidocs/com/ning/http/client/RequestBuilder.html
 
-The dispatch.immutable package implements an immutable `RequestBuilder`
+The `dispatch.immutable` package implements an immutable `RequestBuilder`
 pattern. It prevents accidentally overwriting data when creating new
 requests from the same host. Instead of modifying an existing
 `RequestBuilder`, `dispatch.immutable` creates a new copy of the request
@@ -23,10 +23,14 @@ req / "users" // Note: req is not modified here.
 ```
 
 Present are some methods on every HttpRequest. They are on the underlying
-layer, but are hidden on the immutable layer to maintain immutability.
+layer, but are hidden on the immutable layer to maintain immutability. They
+are also build to act the same way as the regular non-immutable dispatch layer
+does.
 
-* `addPath` (symbol: "/") and `removePath`
-* `addHeaders` (symbol: "<:<") and `removeHeaders`
-* `addQueryParams` (symbol: "<<?") and `removeQueryParams`
-* `addPostParams` (symbol: "<<") and `removePostParams`
-* `secure` and `isSecure`
+* `setUrl` and `setMethod` take a `String`
+* `addPath` (symbol: `/`) and `removePath`
+* `addHeaders` (symbol: `<:<`) and `removeHeaders`
+* `addQueryParams` (symbol: `<<?`) and `removeQueryParams`
+* `addPostParams` (symbol: `<<) and `removePostParams`
+* `addPutBody` (symbol: `<<<`) takes a `java.io.File` or `String`
+* `secure` (to turn a request into its https equivalent) and `isSecure` to return a Boolean if the request is carried over https
