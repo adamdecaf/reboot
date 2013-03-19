@@ -31,6 +31,6 @@ does.
 * `addPath` (symbol: `/`) and `removePath`
 * `addHeaders` (symbol: `<:<`) and `removeHeaders`
 * `addQueryParams` (symbol: `<<?`) and `removeQueryParams`
-* `addPostParams` (symbol: `<<) and `removePostParams`
+* `addPostParams` (symbol: `<<`) and `removePostParams`
 * `addPutBody` (symbol: `<<<`) takes a `java.io.File` or `String`
 * `secure` (to turn a request into its https equivalent) and `isSecure` to return a Boolean if the request is carried over https
